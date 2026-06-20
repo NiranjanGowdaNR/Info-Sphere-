@@ -61,7 +61,7 @@
 | **Dashboard Customizer** | Personalize your news dashboard layout                |
 | **Weather Widget**       | Integrated weather information for your location      |
 
-### 📚 Content Managements
+### 📚 Content Management
 
 | Feature              | Description                                             |
 | -------------------- | ------------------------------------------------------- |
