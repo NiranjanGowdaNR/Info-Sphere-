@@ -18,6 +18,8 @@ import {
 } from "lucide-react";
 import type { Article } from "@/lib/types";
 
+/* eslint-disable react-refresh/only-export-components */
+
 interface SourceCoverage {
   source: string;
   articles: Article[];

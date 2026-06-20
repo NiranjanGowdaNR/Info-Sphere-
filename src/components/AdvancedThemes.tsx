@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 
+/* eslint-disable react-refresh/only-export-components */
+
 export interface ThemePreset {
   id: string;
   name: string;

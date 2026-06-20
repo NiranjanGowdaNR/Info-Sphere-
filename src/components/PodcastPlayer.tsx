@@ -21,6 +21,8 @@ import {
   Mic,
   User,
 } from "lucide-react";
+
+/* eslint-disable react-refresh/only-export-components */
 import type { Article } from "@/lib/types";
 
 interface PodcastPlayerProps {

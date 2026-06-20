@@ -84,7 +84,10 @@ export function NewsList({ title, endpoint, extraParams = {} }: Props) {
       staleTime: 2 * 60 * 1000,
     });
 
-  const articles = data?.data.articles ?? [];
+  const articles = useMemo(
+    () => data?.data.articles ?? [],
+    [data?.data.articles],
+  );
 
   // Create engagement map for sorting
   const engagementMap = useMemo(() => {

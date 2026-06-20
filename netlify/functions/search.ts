@@ -16,7 +16,8 @@ export const handler: Handler = async (
 
   try {
     // Support both 'q' and 'msg' query parameters for compatibility
-    const query = event.queryStringParameters?.q || event.queryStringParameters?.msg || "";
+    const query =
+      event.queryStringParameters?.q || event.queryStringParameters?.msg || "";
     const page = event.queryStringParameters?.page || "1";
     const pageSize = event.queryStringParameters?.pageSize || "20";
 

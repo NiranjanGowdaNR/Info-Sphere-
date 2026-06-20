@@ -8,6 +8,8 @@ import { useState, useCallback, useEffect } from "react";
 import { Sparkles, Loader2, ChevronDown, ChevronUp, X } from "lucide-react";
 import type { Article } from "@/lib/types";
 
+/* eslint-disable react-refresh/only-export-components */
+
 export interface AISummaryConfig {
   provider: "openai" | "extractive" | "none";
   apiKey?: string;
