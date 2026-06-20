@@ -5,7 +5,7 @@ const NEWS_API_BASE_URL = "https://newsapi.org/v2";
 
 export const handler: Handler = async (
   event: HandlerEvent,
-  context: HandlerContext
+  context: HandlerContext,
 ) => {
   // Only allow GET requests
   if (event.httpMethod !== "GET") {
