@@ -4,7 +4,10 @@
  * Follows Single Responsibility and Dependency Inversion principles
  */
 
-import type { NewsRepository, SearchParams } from "../repositories/NewsRepository";
+import type {
+  NewsRepository,
+  SearchParams,
+} from "../repositories/NewsRepository";
 import type { NewsResult } from "../entities/Article";
 
 export class SearchNews {

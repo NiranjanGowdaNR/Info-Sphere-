@@ -63,9 +63,7 @@ export class NewsApiClient {
       const data = (await response.json()) as NewsApiResponse;
 
       if (!response.ok) {
-        throw new Error(
-          data.message || `News API error: ${response.status}`,
-        );
+        throw new Error(data.message || `News API error: ${response.status}`);
       }
 
       return {

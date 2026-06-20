@@ -5,7 +5,11 @@
  */
 
 // Domain Entities
-export type { Article, ArticleSource, NewsResult } from "./domain/entities/Article";
+export type {
+  Article,
+  ArticleSource,
+  NewsResult,
+} from "./domain/entities/Article";
 
 // Domain Repository Interface
 export type {

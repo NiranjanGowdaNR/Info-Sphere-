@@ -4,7 +4,10 @@
  * Follows Single Responsibility and Dependency Inversion principles
  */
 
-import type { NewsRepository, TopHeadlinesParams } from "../repositories/NewsRepository";
+import type {
+  NewsRepository,
+  TopHeadlinesParams,
+} from "../repositories/NewsRepository";
 import type { NewsResult } from "../entities/Article";
 
 export class GetTopHeadlines {
@@ -32,9 +35,10 @@ export class GetTopHeadlines {
     }
 
     // Validate and normalize category
-    const category = params.category && validCategories.includes(params.category)
-      ? params.category
-      : "general";
+    const category =
+      params.category && validCategories.includes(params.category)
+        ? params.category
+        : "general";
 
     return this.newsRepository.getTopHeadlines({
       ...params,
