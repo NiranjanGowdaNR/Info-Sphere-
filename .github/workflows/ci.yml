@@ -7,7 +7,7 @@ on:
     branches: [main, develop]
 
 env:
-  NODE_VERSION: "20"
+  NODE_VERSION: "22"
 
 jobs:
   # ─── Lint & Type Check ───────────────────────────────────────────────────────
@@ -23,7 +23,6 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          cache-dependency-path: Info_sphere/package-lock.json
 
       - name: Install dependencies
         working-directory: Info_sphere
