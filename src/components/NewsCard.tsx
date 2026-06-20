@@ -135,8 +135,8 @@ export function NewsCard({ article }: { article: Article }) {
   };
 
   return (
-    <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
-      <div className="aspect-[16/9] overflow-hidden bg-muted">
+    <article className="group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-card-foreground shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg w-full">
+      <div className="aspect-[16/9] overflow-hidden bg-muted w-full">
         <img
           src={article.urlToImage || FALLBACK}
           alt={article.title}

@@ -15,11 +15,11 @@ export const handler: Handler = async (
   }
 
   try {
-    const query = event.queryStringParameters?.q || "";
-    const page = event.queryStringParameters?.page || "1";
-    const pageSize = event.queryStringParameters?.pageSize || "20";
+    // Support both 'q' and 'msg' query parameters for compatibility
+      const query =
+           event.queryStringParameters?.q || event.queryStringParameters?.msg || "";
 
-    if (!query) {
+    if (!query.trim()) {
       return {
         statusCode: 400,
         headers: {
@@ -29,7 +29,7 @@ export const handler: Handler = async (
         body: JSON.stringify({
           status: 400,
           success: false,
-          message: "Search query is required",
+          message: "Search query is required (use 'q' or 'msg' parameter)",
           data: { articles: [], totalResults: 0 },
         }),
       };

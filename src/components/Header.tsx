@@ -167,7 +167,7 @@ export function Header() {
               }
             }}
             value=""
-            className="w-full rounded-md border border-border bg-card px-2 py-2 text-sm"
+            className="mb-2 w-full rounded-md border border-border bg-card px-2 py-2 text-sm"
           >
             <option value="">Country</option>
             {COUNTRIES.map((c) => (
@@ -176,6 +176,33 @@ export function Header() {
               </option>
             ))}
           </select>
+
+          {/* Mobile-only navigation links */}
+          <div className="mt-3 flex flex-col gap-2">
+            <Link
+              to="/bookmarks"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm hover:bg-muted"
+            >
+              <Bookmark className="h-4 w-4" />
+              Bookmarks
+            </Link>
+            <Link
+              to="/history"
+              onClick={() => setOpen(false)}
+              className="flex items-center gap-2 rounded-md border border-border bg-card px-3 py-2 text-sm hover:bg-muted"
+            >
+              <History className="h-4 w-4" />
+              History
+            </Link>
+          </div>
+
+          {/* Mobile-only utility components */}
+          <div className="mt-3 flex flex-wrap gap-2">
+            <AdvancedThemes />
+            <DashboardCustomizer />
+            <LanguageSelector />
+          </div>
         </div>
       )}
     </header>
