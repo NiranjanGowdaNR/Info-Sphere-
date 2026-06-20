@@ -148,7 +148,7 @@ jobs:
     if: github.ref == 'refs/heads/main' && github.event_name == 'push'
     environment:
       name: production
-      url: https://info-sphere.pages.dev
+      url: https://info-sphere-dev.netlify.app
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
