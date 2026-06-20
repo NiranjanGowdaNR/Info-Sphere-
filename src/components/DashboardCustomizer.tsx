@@ -4,7 +4,7 @@
  * Persists preferences to localStorage
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { Settings, X, GripVertical, Eye, EyeOff } from "lucide-react";
 import {
   Dialog,
@@ -99,7 +99,11 @@ export function isWidgetEnabled(widgetId: string): boolean {
   return widget?.enabled ?? true;
 }
 
-export function DashboardCustomizer() {
+interface DashboardCustomizerProps {
+  trigger?: ReactNode;
+}
+
+export function DashboardCustomizer({ trigger }: DashboardCustomizerProps) {
   const [open, setOpen] = useState(false);
   const [widgets, setWidgets] = useState<DashboardWidget[]>(DEFAULT_WIDGETS);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
@@ -142,13 +146,15 @@ export function DashboardCustomizer() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button
-          className="rounded-md border border-border p-2 hover:bg-muted"
-          aria-label="Customize dashboard"
-          title="Customize Dashboard"
-        >
-          <Settings className="h-4 w-4" />
-        </button>
+        {trigger ?? (
+          <button
+            className="rounded-md border border-border p-2 hover:bg-muted"
+            aria-label="Customize dashboard"
+            title="Customize Dashboard"
+          >
+            <Settings className="h-4 w-4" />
+          </button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>

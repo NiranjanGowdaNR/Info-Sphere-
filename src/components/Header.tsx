@@ -1,10 +1,18 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
-import { Menu, X, Search, Bookmark, History, Clock3 } from "lucide-react";
+import {
+  Menu,
+  X,
+  Search,
+  Bookmark,
+  History,
+  Clock3,
+  Palette,
+  Settings,
+} from "lucide-react";
 import { CATEGORIES, COUNTRIES } from "@/lib/types";
 import { formatReadingTime, useReadingTime } from "@/lib/local-store";
 import { ThemeToggle } from "./ThemeToggle";
-import { LanguageSelector } from "./LanguageSelector";
 import { ThemeScheduler } from "./ThemeScheduler";
 import { WeatherIcon } from "./WeatherIcon";
 import { DashboardCustomizer } from "./DashboardCustomizer";
@@ -26,15 +34,29 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-background/85 backdrop-blur">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3">
-        <div className="flex items-center gap-3">
+      <div className="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3">
+        <div className="flex min-w-0 items-center gap-3">
           <Link
             to="/"
-            className="whitespace-nowrap text-2xl font-bold tracking-tight text-[color:var(--heading)]"
+            className="min-w-0 truncate text-2xl font-bold tracking-tight text-[color:var(--heading)]"
           >
             Info<span className="opacity-70">-Sphere</span>
           </Link>
           <WeatherIcon />
+        </div>
+
+        <div className="flex items-center gap-2 md:hidden">
+          <div className="flex-shrink-0 inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-card px-2 text-xs text-muted-foreground">
+            <Clock3 className="h-3.5 w-3.5" />
+            <span className="truncate">{formatReadingTime(readingTime)}</span>
+          </div>
+          <button
+            onClick={() => setOpen((o) => !o)}
+            aria-label="Menu"
+            className="flex-shrink-0 rounded-md border border-border p-2"
+          >
+            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+          </button>
         </div>
 
         <nav className="hidden flex-1 items-center justify-end gap-3 md:flex">
@@ -108,21 +130,7 @@ export function Header() {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-2 md:hidden">
-          <div className="inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-card px-2 text-xs text-muted-foreground">
-            <Clock3 className="h-3.5 w-3.5" />
-            <span>{formatReadingTime(readingTime)}</span>
-          </div>
-          <ThemeToggle />
-          <ThemeScheduler />
-          <button
-            onClick={() => setOpen((o) => !o)}
-            aria-label="Menu"
-            className="rounded-md border border-border p-2"
-          >
-            {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-          </button>
-        </div>
+        <div className="hidden md:block" />
       </div>
 
       {open && (
@@ -198,10 +206,27 @@ export function Header() {
           </div>
 
           {/* Mobile-only utility components */}
-          <div className="mt-3 flex flex-wrap gap-2">
-            <AdvancedThemes />
-            <DashboardCustomizer />
-            <LanguageSelector />
+          <div className="mt-3 flex flex-col gap-2">
+            <AdvancedThemes
+              trigger={
+                <button className="w-full rounded-md border border-border bg-card px-3 py-2 text-left text-sm hover:bg-muted">
+                  <div className="inline-flex items-center gap-2">
+                    <Palette className="h-4 w-4" />
+                    <span>Change theme</span>
+                  </div>
+                </button>
+              }
+            />
+            <DashboardCustomizer
+              trigger={
+                <button className="w-full rounded-md border border-border bg-card px-3 py-2 text-left text-sm hover:bg-muted">
+                  <div className="inline-flex items-center gap-2">
+                    <Settings className="h-4 w-4" />
+                    <span>Customizable dashboard</span>
+                  </div>
+                </button>
+              }
+            />
           </div>
         </div>
       )}

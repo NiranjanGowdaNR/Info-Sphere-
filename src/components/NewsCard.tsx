@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState } from "react";
 import {
   Bookmark,
   BookmarkCheck,
@@ -11,7 +11,6 @@ import {
   MessageCircle,
   Share2,
   Twitter,
-  Languages,
 } from "lucide-react";
 import type { Article } from "@/lib/types";
 import { estimateReadMinutes } from "@/client/services/read-time";
@@ -22,10 +21,6 @@ import {
   recordArticleView,
   useBookmarks,
 } from "@/lib/local-store";
-import {
-  translateArticle,
-  getPreferredLanguage,
-} from "@/client/services/translation";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,11 +37,8 @@ const FALLBACK = "https://placehold.co/600x400/0a1e3f/93c5fd?text=Info-Sphere";
 export function NewsCard({ article }: { article: Article }) {
   const { isBookmarked, toggle } = useBookmarks();
   const [copied, setCopied] = useState(false);
-  const [translatedTitle, setTranslatedTitle] = useState(article.title);
-  const [translatedDesc, setTranslatedDesc] = useState(article.description);
-  const [isTranslating, setIsTranslating] = useState(false);
   const saved = isBookmarked(article.url);
-  const desc = (translatedDesc ?? "").slice(0, 200);
+  const desc = (article.description ?? "").slice(0, 200);
   const readMinutes = estimateReadMinutes(article);
   const date = article.publishedAt
     ? new Date(article.publishedAt).toLocaleDateString(undefined, {
@@ -56,60 +48,6 @@ export function NewsCard({ article }: { article: Article }) {
       })
     : "";
   const share = useMemo(() => createArticleShareLinks(article), [article]);
-
-  // Handle translation when language changes
-  useEffect(() => {
-    const preferredLang = getPreferredLanguage();
-    if (preferredLang !== "en") {
-      setIsTranslating(true);
-      translateArticle(
-        article.title,
-        article.description,
-        article.content,
-        preferredLang,
-      )
-        .then((translated) => {
-          setTranslatedTitle(translated.title);
-          setTranslatedDesc(translated.description);
-        })
-        .finally(() => setIsTranslating(false));
-    } else {
-      setTranslatedTitle(article.title);
-      setTranslatedDesc(article.description);
-    }
-
-    const handleLanguageChange = () => {
-      const newLang = getPreferredLanguage();
-      if (newLang !== "en") {
-        setIsTranslating(true);
-        translateArticle(
-          article.title,
-          article.description,
-          article.content,
-          newLang,
-        )
-          .then((translated) => {
-            setTranslatedTitle(translated.title);
-            setTranslatedDesc(translated.description);
-          })
-          .finally(() => setIsTranslating(false));
-      } else {
-        setTranslatedTitle(article.title);
-        setTranslatedDesc(article.description);
-      }
-    };
-
-    window.addEventListener(
-      "ls:info-sphere:preferred-language",
-      handleLanguageChange,
-    );
-    return () => {
-      window.removeEventListener(
-        "ls:info-sphere:preferred-language",
-        handleLanguageChange,
-      );
-    };
-  }, [article]);
 
   const openShareUrl = (url: string) => {
     recordArticleShare(article);
@@ -150,14 +88,7 @@ export function NewsCard({ article }: { article: Article }) {
       <div className="flex flex-1 flex-col gap-2 p-4">
         <div className="flex items-start justify-between gap-2">
           <h3 className="line-clamp-2 text-lg font-semibold leading-snug">
-            {isTranslating ? (
-              <span className="inline-flex items-center gap-2">
-                <Languages className="h-4 w-4 animate-pulse" />
-                {translatedTitle}
-              </span>
-            ) : (
-              translatedTitle
-            )}
+            {article.title}
           </h3>
           <button
             onClick={() => toggle(article)}

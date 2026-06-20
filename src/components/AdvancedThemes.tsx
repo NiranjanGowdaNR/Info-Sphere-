@@ -4,7 +4,7 @@
  * Persists theme preferences to localStorage
  */
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, type ReactNode } from "react";
 import { Palette, Check } from "lucide-react";
 import {
   Dialog,
@@ -197,7 +197,11 @@ export function applyThemePreset(presetId: string): void {
   }
 }
 
-export function AdvancedThemes() {
+interface AdvancedThemesProps {
+  trigger?: ReactNode;
+}
+
+export function AdvancedThemes({ trigger }: AdvancedThemesProps) {
   const [open, setOpen] = useState(false);
   const [activePreset, setActivePreset] = useState("default-blue");
 
@@ -236,13 +240,15 @@ export function AdvancedThemes() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button
-          className="rounded-md border border-border p-2 hover:bg-muted"
-          aria-label="Change theme"
-          title="Advanced Themes"
-        >
-          <Palette className="h-4 w-4" />
-        </button>
+        {trigger ?? (
+          <button
+            className="rounded-md border border-border p-2 hover:bg-muted"
+            aria-label="Change theme"
+            title="Advanced Themes"
+          >
+            <Palette className="h-4 w-4" />
+          </button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
