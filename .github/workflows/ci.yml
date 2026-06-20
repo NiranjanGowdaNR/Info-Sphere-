@@ -25,15 +25,12 @@ jobs:
           cache: "npm"
 
       - name: Install dependencies
-        working-directory: Info_sphere
         run: npm ci
 
       - name: Run ESLint
-        working-directory: Info_sphere
         run: npm run lint
 
       - name: TypeScript type check
-        working-directory: Info_sphere
         run: npx tsc --noEmit
 
   # ─── Unit Tests ──────────────────────────────────────────────────────────────
@@ -49,14 +46,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          cache-dependency-path: Info_sphere/package-lock.json
 
       - name: Install dependencies
-        working-directory: Info_sphere
         run: npm ci
 
       - name: Run tests
-        working-directory: Info_sphere
         run: npm test
 
       - name: Upload test results
@@ -64,7 +58,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: test-results
-          path: Info_sphere/coverage/
+          path: coverage/
           retention-days: 7
 
   # ─── Build ───────────────────────────────────────────────────────────────────
@@ -81,14 +75,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          cache-dependency-path: Info_sphere/package-lock.json
 
       - name: Install dependencies
-        working-directory: Info_sphere
         run: npm ci
 
       - name: Build application
-        working-directory: Info_sphere
         env:
           NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
           WEATHER_API_KEY: ${{ secrets.WEATHER_API_KEY }}
@@ -98,7 +89,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-output
-          path: Info_sphere/dist/
+          path: dist/
           retention-days: 7
 
   # ─── Security Audit ──────────────────────────────────────────────────────────
@@ -114,14 +105,11 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: "npm"
-          cache-dependency-path: Info_sphere/package-lock.json
 
       - name: Install dependencies
-        working-directory: Info_sphere
         run: npm ci
 
       - name: Run npm audit
-        working-directory: Info_sphere
         run: npm audit --audit-level=high
         continue-on-error: true
 
