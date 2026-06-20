@@ -3,6 +3,7 @@ import type { Article } from "@/lib/types";
 import type { ArticleEngagement } from "@/lib/local-store";
 import { pushHistory, recordArticleView } from "@/lib/local-store";
 import { getPopularArticles } from "@/client/services/popular-articles";
+import { useWidgetEnabled } from "./DashboardCustomizer";
 
 export function PopularArticles({
   articles,
@@ -11,9 +12,10 @@ export function PopularArticles({
   articles: Article[];
   engagement: ArticleEngagement[];
 }) {
+  const enabled = useWidgetEnabled("popular");
   const popular = getPopularArticles(articles, engagement);
 
-  if (popular.length === 0) return null;
+  if (!enabled || popular.length === 0) return null;
 
   return (
     <section className="mb-6 rounded-lg border border-border bg-card p-4">

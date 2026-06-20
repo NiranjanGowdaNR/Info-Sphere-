@@ -6,6 +6,7 @@ import {
   type RankingMode,
 } from "@/client/services/source-ranking";
 import type { Article } from "@/lib/types";
+import { useWidgetEnabled } from "./DashboardCustomizer";
 
 const modes: { value: RankingMode; label: string }[] = [
   { value: "trending", label: "Trending" },
@@ -23,12 +24,13 @@ export function SourceRankings({
   onSourceSelect: (source: string | null) => void;
 }) {
   const [mode, setMode] = useState<RankingMode>("trending");
+  const enabled = useWidgetEnabled("source-rankings");
   const rankings = useMemo(
     () => getSourceRankings(articles, mode),
     [articles, mode],
   );
 
-  if (rankings.length === 0) return null;
+  if (!enabled || rankings.length === 0) return null;
 
   return (
     <section className="mb-6 rounded-lg border border-border bg-card p-4">

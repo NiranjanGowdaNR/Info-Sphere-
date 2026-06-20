@@ -99,6 +99,27 @@ export function isWidgetEnabled(widgetId: string): boolean {
   return widget?.enabled ?? true;
 }
 
+export function useDashboardWidgets(): DashboardWidget[] {
+  const [widgets, setWidgets] = useState<DashboardWidget[]>(() =>
+    getDashboardWidgets(),
+  );
+
+  useEffect(() => {
+    const handleUpdate = () => setWidgets(getDashboardWidgets());
+    window.addEventListener("ls:dashboard-widgets-updated", handleUpdate);
+    return () => {
+      window.removeEventListener("ls:dashboard-widgets-updated", handleUpdate);
+    };
+  }, []);
+
+  return widgets;
+}
+
+export function useWidgetEnabled(widgetId: string): boolean {
+  const widgets = useDashboardWidgets();
+  return widgets.find((w) => w.id === widgetId)?.enabled ?? true;
+}
+
 interface DashboardCustomizerProps {
   trigger?: ReactNode;
 }

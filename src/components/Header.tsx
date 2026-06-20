@@ -15,7 +15,7 @@ import { formatReadingTime, useReadingTime } from "@/lib/local-store";
 import { ThemeToggle } from "./ThemeToggle";
 import { ThemeScheduler } from "./ThemeScheduler";
 import { WeatherIcon } from "./WeatherIcon";
-import { DashboardCustomizer } from "./DashboardCustomizer";
+import { DashboardCustomizer, useWidgetEnabled } from "./DashboardCustomizer";
 import { AdvancedThemes } from "./AdvancedThemes";
 
 export function Header() {
@@ -23,6 +23,8 @@ export function Header() {
   const [q, setQ] = useState("");
   const [open, setOpen] = useState(false);
   const readingTime = useReadingTime();
+  const weatherEnabled = useWidgetEnabled("weather");
+  const readingTimeEnabled = useWidgetEnabled("reading-time");
 
   const onSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,14 +44,16 @@ export function Header() {
           >
             Info<span className="opacity-70">-Sphere</span>
           </Link>
-          <WeatherIcon />
+          {weatherEnabled && <WeatherIcon />}
         </div>
 
         <div className="flex items-center gap-2 md:hidden">
-          <div className="flex-shrink-0 inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-card px-2 text-xs text-muted-foreground">
-            <Clock3 className="h-3.5 w-3.5" />
-            <span className="truncate">{formatReadingTime(readingTime)}</span>
-          </div>
+          {readingTimeEnabled && (
+            <div className="flex-shrink-0 inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-card px-2 text-xs text-muted-foreground">
+              <Clock3 className="h-3.5 w-3.5" />
+              <span className="truncate">{formatReadingTime(readingTime)}</span>
+            </div>
+          )}
           <button
             onClick={() => setOpen((o) => !o)}
             aria-label="Menu"
@@ -105,10 +109,12 @@ export function Header() {
             ))}
           </select>
 
-          <div className="inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-card px-3 text-sm text-muted-foreground">
-            <Clock3 className="h-4 w-4" />
-            <span>Read {formatReadingTime(readingTime)}</span>
-          </div>
+          {readingTimeEnabled && (
+            <div className="inline-flex h-9 items-center gap-1.5 rounded-md border border-border bg-card px-3 text-sm text-muted-foreground">
+              <Clock3 className="h-4 w-4" />
+              <span>Read {formatReadingTime(readingTime)}</span>
+            </div>
+          )}
 
           <ThemeToggle />
           <ThemeScheduler />
