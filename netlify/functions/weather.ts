@@ -1,7 +1,7 @@
 import type { Handler, HandlerEvent, HandlerContext } from "@netlify/functions";
 
 const WEATHER_API_KEY = process.env.WEATHER_API_KEY;
-const WEATHER_API_BASE_URL = "https://api.openweathermap.org/data/2.5";
+const WEATHER_API_BASE_URL = "https://api.weatherapi.com/v1";
 
 export const handler: Handler = async (
   event: HandlerEvent,
@@ -15,18 +15,20 @@ export const handler: Handler = async (
   }
 
   try {
-    const city = event.queryStringParameters?.city || "London";
+    const location = event.queryStringParameters?.location || "London";
 
-    const url = new URL(`${WEATHER_API_BASE_URL}/weather`);
-    url.searchParams.set("q", city);
-    url.searchParams.set("appid", WEATHER_API_KEY || "");
-    url.searchParams.set("units", "metric");
+    const url = new URL(`${WEATHER_API_BASE_URL}/current.json`);
+    url.searchParams.set("q", location);
+    url.searchParams.set("key", WEATHER_API_KEY || "");
+    url.searchParams.set("aqi", "yes");
 
     const response = await fetch(url.toString());
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(data.message || `Weather API error: ${response.status}`);
+      throw new Error(
+        data.error?.message || `Weather API error: ${response.status}`,
+      );
     }
 
     return {
