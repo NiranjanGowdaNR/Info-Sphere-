@@ -69,9 +69,31 @@ export function WeatherIcon() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    const getCurrentPosition = () =>
+      new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(resolve, reject, {
+          timeout: 10000,
+        });
+      });
+
     const fetchWeather = async () => {
       try {
-        const response = await fetch("/api/weather");
+        let weatherUrl = "/api/weather";
+
+        if (navigator.geolocation) {
+          try {
+            const position = await getCurrentPosition();
+            const { latitude, longitude } = position.coords;
+            weatherUrl = `/api/weather?location=${latitude},${longitude}`;
+          } catch (positionError) {
+            console.warn(
+              "Geolocation failed or denied, falling back to IP-based weather",
+              positionError,
+            );
+          }
+        }
+
+        const response = await fetch(weatherUrl);
         if (!response.ok) {
           throw new Error("Failed to fetch weather data");
         }
