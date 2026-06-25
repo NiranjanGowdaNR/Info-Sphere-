@@ -58,7 +58,9 @@ describe("WeatherIcon", () => {
 
     vi.stubGlobal("navigator", {
       ...originalNavigator,
-      geolocation: { getCurrentPosition: mockGetCurrentPosition } as Geolocation,
+      geolocation: {
+        getCurrentPosition: mockGetCurrentPosition,
+      } as Geolocation,
     });
 
     const fetchMock = vi.fn().mockResolvedValue({
@@ -75,9 +77,7 @@ describe("WeatherIcon", () => {
       expect(screen.getByText("25°C")).toBeInTheDocument();
     });
 
-    expect(fetchMock).toHaveBeenCalledWith(
-      "/api/weather?location=12.34,56.78",
-    );
+    expect(fetchMock).toHaveBeenCalledWith("/api/weather?location=12.34,56.78");
   });
 
   it("falls back to IP weather when geolocation is denied", async () => {
@@ -87,7 +87,9 @@ describe("WeatherIcon", () => {
 
     vi.stubGlobal("navigator", {
       ...originalNavigator,
-      geolocation: { getCurrentPosition: mockGetCurrentPosition } as Geolocation,
+      geolocation: {
+        getCurrentPosition: mockGetCurrentPosition,
+      } as Geolocation,
     });
 
     const fetchMock = vi.fn().mockResolvedValue({
